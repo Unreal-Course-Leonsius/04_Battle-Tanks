@@ -15,5 +15,9 @@ class BATTLETANK_API ATankPlayerController_C : public APlayerController
 	GENERATED_BODY()
 
 		ATank_C* GetControlledTank() const;
+
+	   AActor* Tank = nullptr;  // It's possible ATank_C* reference
+	    
+	   void BeginPlay() override;
 	
 };
