@@ -14,11 +14,16 @@ class BATTLETANK_API ATankAIController_C : public AAIController
 {
 	GENERATED_BODY()
 	
-	
+	void BeginPlay() override;
+
+private:
+
+	AActor* PlayerTank = nullptr;  // It's possible ATank_C* reference
+
 	ATank_C* GetControlledTank() const;
 
-	AActor* Tank = nullptr;  // It's possible ATank_C* reference
+	ATank_C* GetPlayerTank() const;
 
-	void BeginPlay() override;
+	
 	
 };

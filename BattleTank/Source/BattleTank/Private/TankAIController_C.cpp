@@ -11,19 +11,26 @@ void ATankAIController_C::BeginPlay()
 
 	//UE_LOG(LogTemp, Warning, TEXT("It's BeginPlay from TankAIController_C"));
 
-	Tank = GetControlledTank();
-	FString TankName = Tank->GetName();
-	if (Tank)
+	PlayerTank = GetPlayerTank();
+	FString TankName = PlayerTank->GetName();
+	if (PlayerTank)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("TankAIrController Possesses Tank's:  %s"), *TankName);
+		UE_LOG(LogTemp, Warning, TEXT("TankAIrController found Tank:  %s"), *TankName);
 	}
 	else
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController not Possessess anything"));
+		UE_LOG(LogTemp, Warning, TEXT("TankAIController not find"));
 }
 
 
 ATank_C * ATankAIController_C::GetControlledTank() const
 {
 	return Cast<ATank_C>(GetPawn());
+}
+
+ATank_C * ATankAIController_C::GetPlayerTank() const
+{
+	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!PlayerPawn) { return nullptr; }
+	return Cast<ATank_C>(PlayerPawn);
 }
 
