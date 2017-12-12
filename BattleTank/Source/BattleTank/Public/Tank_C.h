@@ -2,8 +2,9 @@
 
 #pragma once
 
+#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
-#include "Tank_C.generated.h"
+#include "Tank_C.generated.h" // Put All includes above
 
 UCLASS()
 class BATTLETANK_API ATank_C : public APawn
@@ -13,6 +14,11 @@ class BATTLETANK_API ATank_C : public APawn
 private:
 	// Sets default values for this pawn's properties
 	ATank_C();
+
+protected:
+
+	UTankAimingComponent *TankAimingComponent = nullptr;
+
 
 public:	
 
