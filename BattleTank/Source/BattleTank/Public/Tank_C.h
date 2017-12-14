@@ -32,5 +32,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void AimAt(FVector, FString);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)  // for use in Blueprint
+	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); // use function in Tank_BP
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 100000; // TODO find sensible default
 	
 };

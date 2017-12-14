@@ -39,6 +39,11 @@ void ATank_C::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank_C::AimAt(FVector HitLocation, FString ObjecName)
 {
 	TankAimingComponent->AimAt(HitLocation, ObjecName);
-	//UTankAimingComponent::AimAt(HitLocation, ObjecName);
+	//UTankAimingComponent::AimAt(HitLocation, ObjecName); // it's not work because UTankAimingComponent is not it's parent class without inheritnace it wouldn't be call function like this
+}
+
+void ATank_C::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
 
