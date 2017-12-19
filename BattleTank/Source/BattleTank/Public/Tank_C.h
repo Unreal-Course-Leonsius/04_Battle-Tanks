@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "Tank_C.generated.h" // Put All includes above
 
+class UTankBarrel_C;
+
 UCLASS()
 class BATTLETANK_API ATank_C : public APawn
 {
@@ -34,7 +36,7 @@ public:
 	void AimAt(FVector, FString);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)  // for use in Blueprint
-	void SetBarrelReference(UStaticMeshComponent *BarrelToSet); // use function in Tank_BP
+	void SetBarrelReference(UTankBarrel_C *BarrelToSet); // use function in Tank_BP  // UTankBarrel is derived from UStaticMashComponent
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000; // TODO find sensible default
