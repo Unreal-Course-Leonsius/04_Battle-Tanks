@@ -47,9 +47,11 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 
 	if (!Barrel) { return; }
-
+	
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile")); // Here comes barrel socket location which we created for StartLocation On the barrel
+
+	TArray<AActor*> ActorsToIgnor; // we need it only for debug
 
 	bool SPV = UGameplayStatics::SuggestProjectileVelocity(
 		this,
@@ -61,14 +63,24 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 		0.f,      // and after that declar ESuggestProjVelocityTraceOption parameter's  // gravity = 0
 		0.f,      // and even thouge Ben's code compile that because ::DoNotTrace parameter's appropriate matching Default false paramter's  // radiuse = 0
 		ESuggestProjVelocityTraceOption::DoNotTrace
+		//FCollisionResponseParams::DefaultResponseParam,
+		//ActorsToIgnor,
+		//true
 	);
 
 
 	if(SPV)
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); // We need not Unit Vector we can directly convert FVector to FRotator: { FRotator OutLaunchVelocityRotator = OutLaunchVelocity.Rotation(); }
-		//UE_LOG(LogTemp, Warning, TEXT("%s AimDirection %s"),*OurTankName, *AimDirection.ToString());
+		auto Time = GetWorld()->GetTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%f Aiming"),Time);
+		//UE_LOG(LogTemp, Error, TEXT("%f DeltaTime"), GetWorld()->DeltaTimeSeconds);
 		MoveBarrel(AimDirection);
+	}
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%f Not Aiming"), Time);
 	}
 	
 	//UE_LOG(LogTemp, Warning, TEXT("LaunchSpeed %f"), LaunchSpeed);  // %f means float
@@ -78,20 +90,13 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 void UTankAimingComponent::MoveBarrel(FVector &AimDirection)
 {
 	// Work-out difference between cuurent barrel rotation and AimDirection
-	FRotator AimDirectionRotation = AimDirection.Rotation();
-	float AimDirectionRotationPitch = AimDirectionRotation.Pitch;
 
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimsRotator = AimDirection.Rotation();
 
 	auto DeltaRotator = AimsRotator - BarrelRotator;
 
-	auto OurTankName = GetOwner()->GetName();
-
-	Barrel->Elevate(5);
-	//UE_LOG(LogTemp, Warning, TEXT("%s AimRotator %s"), *OurTankName, *AimsRotator.ToString());
-	//UE_LOG(LogTemp, Warning, TEXT("%s BarrelRotator %s"), *OurTankName, *BarrelRotator.ToString());
-
+	Barrel->Elevate(DeltaRotator.Pitch);
 
 }
 
