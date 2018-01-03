@@ -19,7 +19,7 @@ void UTankBarrel_C::Elevate(float RelativeSpeed)
 	auto Elevation = FMath::Clamp<float>(RawNewElevation, MinElevationDegrees, MaxElevationDegrees); // it can use also like FMath::Clamp() without <>
 
 	SetRelativeRotation(FRotator(Elevation,0,0));
-	//UE_LOG(LogTemp, Error, TEXT("%f ElevationChange: "), ElevationChange);
+	//UE_LOG(LogTemp, Warning, TEXT("Tank Name: %s"),*GetOwner()->GetName());
 
 }
 

@@ -43,8 +43,23 @@ void ATank_C::AimAt(FVector HitLocation, FString ObjecName)
 	//UTankAimingComponent::AimAt(HitLocation, ObjecName); // it's not work because UTankAimingComponent is not it's parent class without inheritnace it wouldn't be call function like this
 }
 
+void ATank_C::SetTurretReference(UTankTurret_C * TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	TankAimingComponent->SetTurretReference(TurretToSet);
+}
+
+
 void ATank_C::SetBarrelReference(UTankBarrel_C * BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
+
+void ATank_C::Firing()
+{
+	UE_LOG(LogTemp, Warning, TEXT("It's Firing"));
+}
+
+
 

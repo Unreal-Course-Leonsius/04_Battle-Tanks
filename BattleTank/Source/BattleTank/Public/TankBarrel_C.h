@@ -9,7 +9,7 @@
  * 
  */
 
-UCLASS( meta = (BlueprintSpawnableComponent))
+UCLASS( meta = (BlueprintSpawnableComponent)) // hidecategories = "Collision"
 class BATTLETANK_API UTankBarrel_C : public UStaticMeshComponent
 {
 	GENERATED_BODY()
@@ -21,7 +21,7 @@ public:
 private:
 
 	UPROPERTY(EditAnywhere, Category = Setup) // Category = Setup this means that this data will be in Setup Category Group
-	float MaxDegreesPerSecond = 20;
+	float MaxDegreesPerSecond = 10;
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float MaxElevationDegrees = 40;

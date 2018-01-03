@@ -7,6 +7,7 @@
 
 // Forward Declaration
 class UTankAimingComponent;
+class UTankTurret_C;
 class UTankBarrel_C;
 
 UCLASS()
@@ -39,7 +40,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)  // for use in Blueprint
 	void SetBarrelReference(UTankBarrel_C *BarrelToSet); // use function in Tank_BP  // UTankBarrel is derived from UStaticMashComponent
 
+	UFUNCTION(BlueprintCallable, Category = Setup)  
+	void SetTurretReference(UTankTurret_C *TurretToSet); 
+
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000; // TODO find sensible default
+	float LaunchSpeed = 10000; // TODO find sensible default
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Firing();
 	
 };

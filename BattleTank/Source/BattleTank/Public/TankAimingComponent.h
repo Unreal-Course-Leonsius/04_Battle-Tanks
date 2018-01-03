@@ -5,6 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UTankTurret_C;
 class UTankBarrel_C; // Forward Declaration
 
 UCLASS(ClassGroup = (Custom), meta=(BlueprintSpawnableComponent) )
@@ -16,9 +17,10 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	void SetTurretReference(UTankTurret_C *);
 	void SetBarrelReference(UTankBarrel_C *);
 
-	void MoveBarrel(FVector &);
+	void MoveBarrel(FVector &, FString );
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -30,5 +32,6 @@ public:
 
 private:
 
-	UTankBarrel_C * Barrel = nullptr;
+	UTankBarrel_C *Barrel = nullptr;
+	UTankTurret_C *Turret = nullptr;
 };

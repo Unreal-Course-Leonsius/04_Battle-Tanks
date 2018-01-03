@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+#include "TankTurret_C.h"
 #include "TankBarrel_C.h"
 #include "TankAimingComponent.h"
 
@@ -41,6 +42,12 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel_C *BarrelToSet)
 }
 
 
+void UTankAimingComponent::SetTurretReference(UTankTurret_C *TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
+
 void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 {
 	auto OurTankName = GetOwner()->GetName();
@@ -75,7 +82,7 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 		auto Time = GetWorld()->GetTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f Aiming"),Time);
 		//UE_LOG(LogTemp, Error, TEXT("%f DeltaTime"), GetWorld()->DeltaTimeSeconds);
-		MoveBarrel(AimDirection);
+		MoveBarrel(AimDirection,ObjN);
 	}
 	else
 	{
@@ -87,7 +94,7 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 		
 }
 
-void UTankAimingComponent::MoveBarrel(FVector &AimDirection)
+void UTankAimingComponent::MoveBarrel(FVector &AimDirection, FString ObjN)
 {
 	// Work-out difference between cuurent barrel rotation and AimDirection
 
@@ -98,6 +105,31 @@ void UTankAimingComponent::MoveBarrel(FVector &AimDirection)
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 
+	/*UE_LOG(LogTemp, Warning, TEXT("%s TurretPostion: %f"), *GetOwner()->GetName(), Turret->RelativeRotation.Yaw);
+	UE_LOG(LogTemp, Warning, TEXT("%s AimsRotator: %f"), *GetOwner()->GetName(), AimsRotator.Yaw);
+	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %f"), *GetOwner()->GetName(), DeltaRotator.Yaw);*/
+
+	/*if (ObjN == "Tank_BP2_3312")
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s AimsRotator: %s"), *GetOwner()->GetName(), *AimsRotator.ToString());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s AimsRotator: %s"), *GetOwner()->GetName(), *AimsRotator.ToString());
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%s TurretPostion: %s"), *GetOwner()->GetName(), *BarrelRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("%s AimsRotator: %s"), *GetOwner()->GetName(), *AimsRotator.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %s"), *GetOwner()->GetName(), *DeltaRotator.ToString());
+	
+	/*if (FMath::Abs(DeltaRotator.Yaw) < 180) {
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	else {
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}*/
+
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 
