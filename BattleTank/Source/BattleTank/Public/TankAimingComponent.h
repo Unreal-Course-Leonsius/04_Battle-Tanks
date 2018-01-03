@@ -20,7 +20,7 @@ public:
 	void SetTurretReference(UTankTurret_C *);
 	void SetBarrelReference(UTankBarrel_C *);
 
-	void MoveBarrel(FVector &, FString );
+	void MoveBarrel(FVector & );
 
 	// Called when the game starts
 	virtual void BeginPlay() override;

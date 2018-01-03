@@ -82,7 +82,7 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 		auto Time = GetWorld()->GetTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f Aiming"),Time);
 		//UE_LOG(LogTemp, Error, TEXT("%f DeltaTime"), GetWorld()->DeltaTimeSeconds);
-		MoveBarrel(AimDirection,ObjN);
+		MoveBarrel(AimDirection);
 	}
 	else
 	{
@@ -94,7 +94,7 @@ void UTankAimingComponent::AimAt(FVector OHT, FString ObjN, float LaunchSpeed)
 		
 }
 
-void UTankAimingComponent::MoveBarrel(FVector &AimDirection, FString ObjN)
+void UTankAimingComponent::MoveBarrel(FVector &AimDirection)
 {
 	// Work-out difference between cuurent barrel rotation and AimDirection
 
@@ -107,9 +107,9 @@ void UTankAimingComponent::MoveBarrel(FVector &AimDirection, FString ObjN)
 
 	/*UE_LOG(LogTemp, Warning, TEXT("%s TurretPostion: %f"), *GetOwner()->GetName(), Turret->RelativeRotation.Yaw);
 	UE_LOG(LogTemp, Warning, TEXT("%s AimsRotator: %f"), *GetOwner()->GetName(), AimsRotator.Yaw);
-	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %f"), *GetOwner()->GetName(), DeltaRotator.Yaw);*/
+	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %f"), *GetOwner()->GetName(), DeltaRotator.Yaw);
 
-	/*if (ObjN == "Tank_BP2_3312")
+	if (ObjN == "Tank_BP2_3312")
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s AimsRotator: %s"), *GetOwner()->GetName(), *AimsRotator.ToString());
 	}
@@ -121,15 +121,16 @@ void UTankAimingComponent::MoveBarrel(FVector &AimDirection, FString ObjN)
 	UE_LOG(LogTemp, Warning, TEXT("%s TurretPostion: %s"), *GetOwner()->GetName(), *BarrelRotator.ToString());
 	//UE_LOG(LogTemp, Warning, TEXT("%s AimsRotator: %s"), *GetOwner()->GetName(), *AimsRotator.ToString());
 	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %s"), *GetOwner()->GetName(), *DeltaRotator.ToString());
+
+	Turret->Rotate(DeltaRotator.Yaw); */
 	
-	/*if (FMath::Abs(DeltaRotator.Yaw) < 180) {
+	if (FMath::Abs(DeltaRotator.Yaw) < 180) {
 		Turret->Rotate(DeltaRotator.Yaw);
 	}
 	else {
 		Turret->Rotate(-DeltaRotator.Yaw);
-	}*/
+	}
 
-	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 
