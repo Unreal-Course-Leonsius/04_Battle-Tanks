@@ -3,12 +3,14 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
-#include "Tank_C.generated.h" // Put All includes above
+#include "Tank_C.generated.h" // Put All includes above 
 
 // Forward Declaration
+class AProjectile_C;
 class UTankAimingComponent;
-class UTankTurret_C;
-class UTankBarrel_C;
+class UTankTurret_C;  // The thanks of UFUNCTION(BlueprintCallable... "Tank_C.generated.h" automaticly forwrd declaring this class  but without UFUNCTION(BlueprintCallable... we need this line
+class UTankBarrel_C;  // The thanks of UFUNCTION(BlueprintCallable... "Tank_C.generated.h" automaticly forwrd declaring this class  but without UFUNCTION(BlueprintCallable... we need this line
+
 
 UCLASS()
 class BATTLETANK_API ATank_C : public APawn
@@ -19,12 +21,22 @@ private:
 	// Sets default values for this pawn's properties
 	ATank_C();
 
+	UTankBarrel_C *Barrel = nullptr;  // Local barrel reference for spawning projectile
+
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float LaunchSpeed = 10000; // TODO find sensible default
+
+	UPROPERTY(EditAnywhere, Category = Setup) // we need this class to get Projectile_BP in C++
+		TSubclassOf<AProjectile_C> ProjectileBlueprint; // Alternative { UClass *ProjectileBueprint } and it's get all kind of classess But in our case it get only AProjectile_C or it's derived classess
+
+
 protected:
 
-	UTankAimingComponent *TankAimingComponent = nullptr;
+	UTankAimingComponent * TankAimingComponent = nullptr;
 
 
-public:	
+public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -38,15 +50,13 @@ public:
 	void AimAt(FVector, FString);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)  // for use in Blueprint
-	void SetBarrelReference(UTankBarrel_C *BarrelToSet); // use function in Tank_BP  // UTankBarrel is derived from UStaticMashComponent
-
-	UFUNCTION(BlueprintCallable, Category = Setup)  
-	void SetTurretReference(UTankTurret_C *TurretToSet); 
-
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 10000; // TODO find sensible default
+		void SetBarrelReference(UTankBarrel_C *BarrelToSet); // use function in Tank_BP  // UTankBarrel is derived from UStaticMashComponent
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void Firing();
-	
+		void SetTurretReference(UTankTurret_C *TurretToSet);
+
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void Firing();
+
 };

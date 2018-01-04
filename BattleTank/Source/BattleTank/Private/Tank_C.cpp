@@ -2,6 +2,8 @@
 
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
+#include "Projectile_C.h"
+#include "TankBarrel_C.h"
 #include "Tank_C.h"
 
 
@@ -54,11 +56,25 @@ void ATank_C::SetBarrelReference(UTankBarrel_C * BarrelToSet)
 {
 	if (!BarrelToSet) { return; }
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank_C::Firing()
 {
-	UE_LOG(LogTemp, Warning, TEXT("It's Firing"));
+	//UE_LOG(LogTemp, Warning, TEXT("It's Firing... %s"), *ProjectileBlueprint->GetName());
+
+	if (!Barrel) { return; }
+	
+	// Spawn a projectile at the socket location on the barrel
+	auto Projectile = GetWorld()->SpawnActor<AProjectile_C>(
+		ProjectileBlueprint,
+		Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile"))  // it's matching Projectile's ForwardVector
+		);
+
+
+	//UE_LOG(LogTemp, Warning, TEXT("It's Firing... %s"), *Projectile->GetName());
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 
