@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Projectile_C.h"
 #include "TankBarrel_C.h"
 #include "Tank_C.h"
@@ -15,6 +16,7 @@ ATank_C::ATank_C()
 
 	// No need to protect points as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName ("Aiming Component"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
 }
 
@@ -61,21 +63,34 @@ void ATank_C::SetBarrelReference(UTankBarrel_C * BarrelToSet)
 
 void ATank_C::Firing()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("It's Firing... %s"), *ProjectileBlueprint->GetName());
+	//UE_LOG(LogTemp, Warning, TEXT("ProjectileBP... %s"), *ProjectileBlueprint->GetName());
 
-	if (!Barrel) { return; }
-	
-	// Spawn a projectile at the socket location on the barrel
-	auto Projectile = GetWorld()->SpawnActor<AProjectile_C>(
-		ProjectileBlueprint,
-		Barrel->GetSocketLocation(FName("Projectile")),
-		Barrel->GetSocketRotation(FName("Projectile"))  // it's matching Projectile's ForwardVector
-		);
+	bool IsReload = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
+	if (Barrel && IsReload)
+	{
+		// Spawn a projectile at the socket location on the barrel
+			 // Projectile = AProjectile_C it's Actor of Spawning
+		auto Projectile = GetWorld()->SpawnActor<AProjectile_C>(
+			ProjectileBlueprint, // Spawn
+			Barrel->GetSocketLocation(FName("Projectile")),
+			Barrel->GetSocketRotation(FName("Projectile"))  // it's matching Projectile's ForwardVector
+			);
 
-	//UE_LOG(LogTemp, Warning, TEXT("It's Firing... %s"), *Projectile->GetName());
-	Projectile->LaunchProjectile(LaunchSpeed);
+		     //AProjectile_C *APC = Projectile;
+	        //FString Name = APC->GetName();
+        //UE_LOG(LogTemp, Warning, TEXT("Projectile.. %s"), *Projectile->GetName());
+		
+		//UE_LOG(LogTemp,Warning,TEXT("TankName = %s"),*Controller->GetName())
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+
+	}
+
 }
+
+	        
 
 
 

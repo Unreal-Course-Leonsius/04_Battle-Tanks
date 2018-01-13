@@ -3,11 +3,13 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+//#include "Projectile_C.h"
 #include "Tank_C.generated.h" // Put All includes above 
 
 // Forward Declaration
 class AProjectile_C;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class UTankTurret_C;  // The thanks of UFUNCTION(BlueprintCallable... "Tank_C.generated.h" automaticly forwrd declaring this class  but without UFUNCTION(BlueprintCallable... we need this line
 class UTankBarrel_C;  // The thanks of UFUNCTION(BlueprintCallable... "Tank_C.generated.h" automaticly forwrd declaring this class  but without UFUNCTION(BlueprintCallable... we need this line
 
@@ -21,20 +23,25 @@ private:
 	// Sets default values for this pawn's properties
 	ATank_C();
 
+	float ReloadTimeInSeconds = 3;
+	double LastFireTime = 0;
+
 	UTankBarrel_C *Barrel = nullptr;  // Local barrel reference for spawning projectile
 
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 10000; // TODO find sensible default
 
-	UPROPERTY(EditAnywhere, Category = Setup) // we need this class to get Projectile_BP in C++
+	UPROPERTY(EditDefaultsOnly, Category = Setup) // we need this class to get Projectile_BP in C++
 		TSubclassOf<AProjectile_C> ProjectileBlueprint; // Alternative { UClass *ProjectileBueprint } and it's get all kind of classess But in our case it get only AProjectile_C or it's derived classess
 
 
 protected:
 
-	UTankAimingComponent * TankAimingComponent = nullptr;
+	UTankAimingComponent *TankAimingComponent = nullptr;
 
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent *TankMovementComponent = nullptr;
 
 public:
 
@@ -58,5 +65,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Firing();
+
 
 };

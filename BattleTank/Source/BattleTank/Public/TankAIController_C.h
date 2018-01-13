@@ -24,7 +24,7 @@ public:
 
 private:
 
-	AActor* PlayerTank = nullptr;  // It's possible ATank_C* reference
+	AActor* PlayerTank = nullptr;  // It's not possible ATank_C* reference because it is AActor not Atank_C
 
 	ATank_C* GetControlledTank() const;
 

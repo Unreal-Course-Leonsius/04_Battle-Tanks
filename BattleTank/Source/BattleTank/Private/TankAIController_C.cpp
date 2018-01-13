@@ -12,9 +12,9 @@ void ATankAIController_C::BeginPlay()
 
 	//UE_LOG(LogTemp, Warning, TEXT("It's BeginPlay from TankAIController_C"));
 
-	PlayerTank = GetPlayerTank();
-	FString TankName = PlayerTank->GetName();
-	if (PlayerTank)
+	
+	FString TankName = GetControlledTank()->GetName();
+	if (GetControlledTank())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("TankAIrController found Tank:  %s"), *TankName);
 	}
@@ -27,9 +27,10 @@ void ATankAIController_C::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (PlayerTank)
+	if (GetPlayerTank())
 	{
-		GetControlledTank()->AimAt(PlayerTank->GetActorLocation(), PlayerTank->GetName());
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation(), GetPlayerTank()->GetName());
+		//GetControlledTank()->Firing();
 	}
 }
 
