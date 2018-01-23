@@ -9,7 +9,7 @@
 // Forward Declaration
 class AProjectile_C;
 class UTankAimingComponent;
-class UTankMovementComponent;
+//class UTankMovementComponent;
 class UTankTurret_C;  // The thanks of UFUNCTION(BlueprintCallable... "Tank_C.generated.h" automaticly forwrd declaring this class  but without UFUNCTION(BlueprintCallable... we need this line
 class UTankBarrel_C;  // The thanks of UFUNCTION(BlueprintCallable... "Tank_C.generated.h" automaticly forwrd declaring this class  but without UFUNCTION(BlueprintCallable... we need this line
 
@@ -40,8 +40,8 @@ protected:
 
 	UTankAimingComponent *TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent *TankMovementComponent = nullptr;
+	//UPROPERTY(BlueprintReadOnly) // It's nessacary if we need to use its function in Blueprint without it UFUNCTION useless
+	//UTankMovementComponent *TankMovementComponent = nullptr;
 
 public:
 
