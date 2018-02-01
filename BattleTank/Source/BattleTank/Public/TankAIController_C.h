@@ -6,7 +6,8 @@
 #include "TankAIController_C.generated.h"
 
 // Forward Declaration
-class ATank_C;
+class UTankAimingComponent;
+//class ATank_C;
 
 /**
  * 
@@ -24,13 +25,19 @@ public:
 
 private:
 
-	AActor* PlayerTank = nullptr;  // It's not possible ATank_C* reference because it is AActor not Atank_C
-
-	ATank_C* GetControlledTank() const;
-
-	ATank_C* GetPlayerTank() const;
+	AActor* PlayerTankK = nullptr;  // It's not possible ATank_C* reference because it is AActor not Atank_C
 
 	// How close can AI Tank get in cm
 	float AcceptanceRadius = 3000;
+
+	// Local Varieable for not fireing from the start
+	float StartProjectile = 10;
+
+private:
+
+	//============ we need not thus two functions because TankAIController don't connect to ATank_C anymore ======///
+	  //ATank_C* GetControlledTank() const;
+
+	  //ATank_C* GetPlayerTank() const;
 	
 };

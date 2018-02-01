@@ -1,7 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright EmbraceIT Ltd.
 
 #include "BattleTank.h"
-#include "Tank_C.h"
+#include "TankAimingComponent.h"
+//#include "Tank_C.h"
 #include "TankPlayerController_C.h"
 
 
@@ -14,14 +15,9 @@ void ATankPlayerController_C::BeginPlay()
 	GetWorld()->GetGameViewport()->GetViewportSize(ScreenSize);
 	UE_LOG(LogTemp, Error, TEXT("Screen size = %s"), *ScreenSize.ToString());*/
 
-    Tank = GetControlledTank();
-	FString TankName = Tank->GetName();
-	if (Tank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController Possesses Tank's:  %s"),*TankName);
-	}
-	else
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController not Possessess anything")); 
+    UE_LOG(LogTemp,Warning,TEXT("hokydoky PlayerController BeginPlay() C++ ..."))
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	FindAimingComponent(AimingComponent);
 }
 
 
@@ -35,23 +31,16 @@ void ATankPlayerController_C::Tick(float DeltaTime)
 
 
 
-ATank_C * ATankPlayerController_C::GetControlledTank() const
-{
-	return Cast<ATank_C>(GetPawn());
-}
-
-
-
 void ATankPlayerController_C::AimTowardCrosshair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetPawn())) { return; }
 
 	FVector OutHitLocation; // OUT Parameter
 	FString HitObjectName;  // OUT Parameter
 	if (GetSightRayHitLocation(OutHitLocation,HitObjectName)) // Has "sied-effect", is going to Line trace
 	{
-		// TODO Tell controlled tank to aim at this point
-		GetControlledTank()->AimAt(OutHitLocation,HitObjectName);
+		// Tell controlled tank to aim at this point
+		GetPawn()->FindComponentByClass<UTankAimingComponent>()->AimAt(OutHitLocation,HitObjectName);
 	}
 
 }
@@ -71,7 +60,6 @@ bool ATankPlayerController_C::GetSightRayHitLocation(FVector & OutHitLocation, F
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *LookDirection.ToString());
 		// Line-trace along that look direction, and see what we hit (up to max range)
 		GetLookVectorHitLocation(LookDirection, OutHitLocation, HitObN);
 	}
@@ -124,3 +112,14 @@ bool ATankPlayerController_C::GetLookDirection(FVector2D & ScreenLocation, FVect
 	);
 
 }
+
+
+/*ATank_C * ATankPlayerController_C::GetControlledTank() const
+{
+     //============== WE USE GetPawn() INSTED OF Cast<ATank_C>(GetPawn()) =============//
+         // Because we want to connect AimingComponent directly and
+         //TankPlayerController's Pawn can find ActorComponent in the class which is derived from it because
+         // FindComponentByClass is a function on AActor, it loops through it’s components and
+         //returns the first UActorComponent* of the specified type which must be derived from UActorComponent
+    return Cast<ATank_C>(GetPawn());
+}*/

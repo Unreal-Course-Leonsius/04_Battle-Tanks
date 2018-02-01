@@ -7,7 +7,7 @@
 
 void UTankTrack_C::SetThrottle(float Throttle)
 {
-	auto Name = GetName();
+	//auto Name = GetName();
 	//UE_LOG(LogTemp, Warning, TEXT("%s = %f"), *Name, Throttle);
 
 	// TODO clamp actual Throttle value so player can't over-drive

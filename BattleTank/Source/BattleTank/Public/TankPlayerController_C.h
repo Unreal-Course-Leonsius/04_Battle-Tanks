@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright EmbraceIT Ltd.
 
 #pragma once
 
@@ -6,10 +6,11 @@
 #include "TankPlayerController_C.generated.h"
 
 // Forward Declaration
-class ATank_C;
+//class ATank_C;
+class UTankAimingComponent;
 
 /**
- * 
+ * Responsible for helping Player to Aim
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController_C : public APlayerController
@@ -21,13 +22,15 @@ class BATTLETANK_API ATankPlayerController_C : public APlayerController
 
 	   virtual void BeginPlay() override;
 
-	  
+protected:
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FindAimingComponent(UTankAimingComponent *AimCompRef);
 
 private:
 
 	AActor* Tank = nullptr;  // It's possible ATank_C* reference
 
-	ATank_C* GetControlledTank() const;
 
 	// Start the tank moving the barrel so that a shot would hit where
 	// the crosshair intersects the world
@@ -48,5 +51,12 @@ private:
 	bool GetLookDirection(FVector2D &, FVector &) const; // tu const functiashi viyenebt sxva functias isic aucileblad unda iyos const
 
 	bool GetLookVectorHitLocation(FVector, FVector &, FString & ) const;
+
+
+protected:
+
+	//====== PlayerController don't connect ATank_C therefor we need not this function anymore =====///
+	  /*UFUNCTION(BlueprintCallable, Category = "Setup")
+	    ATank_C * GetControlledTank() const; // we need this function to call from Payer UI Widget*/
 	
 };

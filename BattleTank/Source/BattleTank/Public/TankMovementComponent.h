@@ -33,6 +33,8 @@ public:
 	
 private:
 
+	UTankMovementComponent();
+
 	// Called from the Pathfindng logic by the AIController, MoveToActor(); 
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 

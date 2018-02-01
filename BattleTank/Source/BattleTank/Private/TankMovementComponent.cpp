@@ -5,6 +5,16 @@
 #include "TankMovementComponent.h"
 
 
+UTankMovementComponent::UTankMovementComponent()
+{
+	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+	// off to improve performance if you don't need them.
+	PrimaryComponentTick.bCanEverTick = true;
+	UE_LOG(LogTemp, Warning, TEXT("hokydoky TankMovementComponent Constructor C++ ..."))
+		// ...
+}
+
+
 void UTankMovementComponent::Initialize(UTankTrack_C *LeftTrackToSet, UTankTrack_C *RightTrackToSet)
 {
 	if (!LeftTrackToSet || !RightTrackToSet) { return; }
@@ -14,7 +24,7 @@ void UTankMovementComponent::Initialize(UTankTrack_C *LeftTrackToSet, UTankTrack
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Intend Move Forward throw: %f"), Throw);
+
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
@@ -44,15 +54,14 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 
 	auto ForwardThrow = FVector::DotProduct(TankForward, AiForwardIntention); // DotProduct() implementation { return A | B } its not binary operation its overloaded operator
 	IntendMoveForward(ForwardThrow);
-	//UE_LOG(LogTemp, Warning, TEXT("ForwadThrow %f"), ForwardThrow);
+	
 
 	
 	auto RightThrow = FVector::CrossProduct(TankForward, AiForwardIntention);
 	IntendTurnRight(RightThrow.Z);
-	//UE_LOG(LogTemp, Warning, TEXT("ForwadThrow %s"), *RightThrow.ToString());
+	
 
 	float TurnValue = (TankForward.X * AiForwardIntention.Y) - (TankForward.Y * AiForwardIntention.X);
-	//UE_LOG(LogTemp, Warning, TEXT("TurnValue %f"), TurnValue);
 	
 
 	/*UE_LOG(LogTemp, Warning, TEXT("TankForward %s"), *TankForward.ToString());
