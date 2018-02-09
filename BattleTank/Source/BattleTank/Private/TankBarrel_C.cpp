@@ -11,6 +11,11 @@ void UTankBarrel_C::Elevate(float RelativeSpeed)
 
 	RelativeSpeed  = FMath::Clamp<float>(RelativeSpeed, -1, +1);
 
+	/*auto TankName = GetOwner()->GetName();
+	if (TankName == "Tank_BP_C_0")
+	{
+		UE_LOG(LogTemp, Warning, TEXT("RelativeSpeed = %f"), RelativeSpeed);
+	}*/
 	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewElevation = RelativeRotation.Pitch + ElevationChange;
 

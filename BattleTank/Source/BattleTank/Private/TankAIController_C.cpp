@@ -25,20 +25,16 @@ void ATankAIController_C::Tick(float DeltaTime)
 	//UE_LOG(LogTemp, Error, TEXT("DONKY %s"), *PlayerTank->GetName());
 	auto ControlledTank = GetPawn();
 
-	if (!ensure(PlayerTank && ControlledTank)) { return; }
+	if (!ensure(PlayerTank) || !ensure(ControlledTank)) { return; }
 
 	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
 	
 	// Move towards the Player
 	MoveToActor(PlayerTank, AcceptanceRadius);
 
-
 	// Aim towards the Player
 	AimingComponent->AimAt(PlayerTank->GetActorLocation(), ControlledTank->GetName());
-	if (GetWorld()->GetTimeSeconds() > StartProjectile)
-	{
-		AimingComponent->Firing();
-	}
+	AimingComponent->Firing();
 	
 }
 

@@ -34,7 +34,7 @@ public:
 
 	//void AimAt(FVector, FString, float); // FVector = HitObjectLocation FString = HitObjecName float = LaunchSpeed
 	void AimAt(FVector, FString);
-	void MoveBarrel(FVector &);
+	void MoveBarrel();
 
 protected:
 
@@ -46,9 +46,10 @@ private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	bool IsBarrelMoving();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Setup") // we need this class to get Projectile_BP in C++
 	TSubclassOf<AProjectile_C> ProjectileBlueprint; // Alternative { UClass *ProjectileBueprint } and it's get all kind of classess But in our case it get only AProjectile_C or it's derived classess
-
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -63,6 +64,8 @@ private:
 	UTankTurret_C *Turret = nullptr;
 	float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
+
+	FVector AimDirection = FVector(0,0,0); 
 
 public:
 

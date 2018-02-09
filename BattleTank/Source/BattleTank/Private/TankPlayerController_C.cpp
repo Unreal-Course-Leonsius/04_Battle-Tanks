@@ -14,8 +14,7 @@ void ATankPlayerController_C::BeginPlay()
 	FVector2D ScreenSize;
 	GetWorld()->GetGameViewport()->GetViewportSize(ScreenSize);
 	UE_LOG(LogTemp, Error, TEXT("Screen size = %s"), *ScreenSize.ToString());*/
-
-    UE_LOG(LogTemp,Warning,TEXT("hokydoky PlayerController BeginPlay() C++ ..."))
+	if (!ensure(GetPawn())) { return; }
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	FindAimingComponent(AimingComponent);
 }
@@ -37,7 +36,10 @@ void ATankPlayerController_C::AimTowardCrosshair()
 
 	FVector OutHitLocation; // OUT Parameter
 	FString HitObjectName;  // OUT Parameter
-	if (GetSightRayHitLocation(OutHitLocation,HitObjectName)) // Has "sied-effect", is going to Line trace
+	bool bGotHitLocation = GetSightRayHitLocation(OutHitLocation, HitObjectName);
+	UE_LOG(LogTemp, Warning, TEXT("bGotHitLocation %i"), bGotHitLocation); // boolien Log i = bool = integer;
+
+	if (bGotHitLocation) // Has "sied-effect", is going to Line trace
 	{
 		// Tell controlled tank to aim at this point
 		GetPawn()->FindComponentByClass<UTankAimingComponent>()->AimAt(OutHitLocation,HitObjectName);
@@ -61,11 +63,11 @@ bool ATankPlayerController_C::GetSightRayHitLocation(FVector & OutHitLocation, F
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		// Line-trace along that look direction, and see what we hit (up to max range)
-		GetLookVectorHitLocation(LookDirection, OutHitLocation, HitObN);
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation, HitObN);
 	}
 
 	
-	return true;
+	return false;
 }
 
 bool ATankPlayerController_C::GetLookVectorHitLocation(FVector LookDirection, FVector & OutHitLocation, FString & HitObN) const

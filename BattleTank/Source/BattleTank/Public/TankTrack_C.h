@@ -22,4 +22,21 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float TankMaxDrivingForce = 40000000.0;
 	
+
+private:
+	UTankTrack_C();
+
+	// ========= We need not TickComponent() because we hava OnHit and it Ticks
+	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override; 
+
+	virtual void BeginPlay() override;
+
+	void ApplySidewaysForce();
+
+	float CurrentThrottle = 0;
+	void DriveTrack();
+
+	// this Ticks in every frame when the Tank is on something (which has Block Collision) 
+	UFUNCTION()
+	void OnHit( UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

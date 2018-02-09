@@ -37,7 +37,6 @@ void ATank_C::BeginPlay()
 
 	/// IN here gets Tank_BP AimingComponent
 	//TankAimingComponent = FindComponentByClass<UTankAimingComponent>(); 
-	//UE_LOG(LogTemp, Warning, TEXT("TankAimingComponent name ... %s"), *TankAimingComponent->GetName())
 
 	/// CreateDefaultSubobjcet() is a Constructor function isn't working in BegingPlay() 
 	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
