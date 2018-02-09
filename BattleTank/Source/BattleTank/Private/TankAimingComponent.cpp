@@ -170,6 +170,11 @@ void UTankAimingComponent::MoveBarrel()
 
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 
 void UTankAimingComponent::Firing()
 {
@@ -179,7 +184,8 @@ void UTankAimingComponent::Firing()
 	{
 		// Spawn a projectile at the socket location on the barrel
 		// Projectile = AProjectile_C it's Actor of Spawning
-		if (!ensure(Barrel && ProjectileBlueprint)) { return; }
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile_C>(
 			ProjectileBlueprint, // Spawn
 			Barrel->GetSocketLocation(FName("Projectile")),

@@ -23,12 +23,16 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	
+	// How close can AI Tank get in cm
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float AcceptanceRadius = 10000;
+
 private:
 
 	AActor* PlayerTankK = nullptr;  // It's not possible ATank_C* reference because it is AActor not Atank_C
 
-	// How close can AI Tank get in cm
-	float AcceptanceRadius = 3000;
 
 	// Local Varieable for not fireing from the start
 	float StartProjectile = 10;

@@ -35,6 +35,7 @@ public:
 	//void AimAt(FVector, FString, float); // FVector = HitObjectLocation FString = HitObjecName float = LaunchSpeed
 	void AimAt(FVector, FString);
 	void MoveBarrel();
+	EFiringState GetFiringState() const;
 
 protected:
 

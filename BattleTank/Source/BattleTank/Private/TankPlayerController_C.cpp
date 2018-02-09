@@ -37,7 +37,7 @@ void ATankPlayerController_C::AimTowardCrosshair()
 	FVector OutHitLocation; // OUT Parameter
 	FString HitObjectName;  // OUT Parameter
 	bool bGotHitLocation = GetSightRayHitLocation(OutHitLocation, HitObjectName);
-	UE_LOG(LogTemp, Warning, TEXT("bGotHitLocation %i"), bGotHitLocation); // boolien Log i = bool = integer;
+	//UE_LOG(LogTemp, Warning, TEXT("bGotHitLocation %i"), bGotHitLocation); // boolien Log i = bool = integer;
 
 	if (bGotHitLocation) // Has "sied-effect", is going to Line trace
 	{
