@@ -33,13 +33,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Firing();
 
-	UFUNCTION(BlueprintCallable, Category = "Firing")
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	int GetRoundLeft() const;
+
 
 	//void AimAt(FVector, FString, float); // FVector = HitObjectLocation FString = HitObjecName float = LaunchSpeed
 	void AimAt(FVector, FString);
 	void MoveBarrel();
-
 	EFiringState GetFiringState() const;
 
 protected:
@@ -71,10 +71,8 @@ private:
 	float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
 
+	int RoundLeft = 3;
 	FVector AimDirection = FVector(0,0,0); 
-
-	int RoundLeft = 3; // It's used in PlayerUI Widget
-	float myDelta = 0; // For DeltaTime Testing
 
 public:
 
