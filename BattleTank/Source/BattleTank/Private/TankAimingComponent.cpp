@@ -36,9 +36,17 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// Ben dont add Super::
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	/*myDelta = myDelta + DeltaTime;
+	UE_LOG(LogTemp, Warning, TEXT("myDelta %f"), myDelta);
+	RoundLeft = RoundLeft - int(myDelta);  //  DeltaTime is not working here
+	RoundLeft = 1+ReloadTimeInSeconds + LastFireTime - FPlatformTime::Seconds(); // whereas such way it works
+	*/
 	// ...
-	
-	if (FPlatformTime::Seconds() - LastFireTime < ReloadTimeInSeconds)
+	if (RoundLeft <= 0)
+	{
+		FiringState = EFiringState::OutOfAmmo;
+	}
+	else if (FPlatformTime::Seconds() - LastFireTime < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -180,7 +188,7 @@ void UTankAimingComponent::Firing()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("ProjectileBP... %s"), *ProjectileBlueprint->GetName());
 
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
 		// Spawn a projectile at the socket location on the barrel
 		// Projectile = AProjectile_C it's Actor of Spawning
@@ -201,9 +209,15 @@ void UTankAimingComponent::Firing()
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 		//FiringState = EFiringState::Reloading;
+		RoundLeft--;
 
 	}
 
+}
+
+int UTankAimingComponent::GetRoundLeft() const
+{
+	return RoundLeft;
 }
 
 

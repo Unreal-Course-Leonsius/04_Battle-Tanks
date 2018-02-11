@@ -11,7 +11,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 
 // Forward Declaration
@@ -29,12 +30,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialize(UTankBarrel_C *BarrelToSet, UTankTurret_C *TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Firing();
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundLeft() const;
 
 	//void AimAt(FVector, FString, float); // FVector = HitObjectLocation FString = HitObjecName float = LaunchSpeed
 	void AimAt(FVector, FString);
 	void MoveBarrel();
+
 	EFiringState GetFiringState() const;
 
 protected:
@@ -67,6 +72,9 @@ private:
 	double LastFireTime = 0;
 
 	FVector AimDirection = FVector(0,0,0); 
+
+	int RoundLeft = 3; // It's used in PlayerUI Widget
+	float myDelta = 0; // For DeltaTime Testing
 
 public:
 
