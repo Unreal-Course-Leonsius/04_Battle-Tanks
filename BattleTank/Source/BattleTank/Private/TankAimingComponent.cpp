@@ -215,7 +215,7 @@ void UTankAimingComponent::Firing()
 
 }
 
-int UTankAimingComponent::GetRoundLeft() const
+int32 UTankAimingComponent::GetRoundLeft() const
 {
 	return RoundLeft;
 }

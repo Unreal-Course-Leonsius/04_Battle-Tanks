@@ -1,8 +1,9 @@
 
-*.VC.db
-
 # Visual Studio 2015 user specific files
 .vs/
+
+*.VC.db
+
 
 # Visual Studio 2015 database file
 *.VC.db
@@ -73,7 +74,7 @@ Saved/*
 
 # Compiled source files for the engine to use
 Intermediate/*
-*/StarterContent
+
 
 # Cache files for the editor to use
 DerivedDataCache/*

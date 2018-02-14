@@ -34,7 +34,7 @@ public:
 	void Firing();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	int GetRoundLeft() const;
+	int32 GetRoundLeft() const;
 
 
 	//void AimAt(FVector, FString, float); // FVector = HitObjectLocation FString = HitObjecName float = LaunchSpeed
@@ -68,10 +68,15 @@ private:
 
 	UTankBarrel_C *Barrel = nullptr;
 	UTankTurret_C *Turret = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
+
 	double LastFireTime = 0;
 
-	int RoundLeft = 3;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 RoundLeft = 3;
+
 	FVector AimDirection = FVector(0,0,0); 
 
 public:
