@@ -18,6 +18,11 @@ AProjectile_C::AProjectile_C()
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
 	LaunchBlast->AttachTo(RootComponent);
 
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+	ImpactBlast->AttachTo(RootComponent);
+	ImpactBlast->bAutoActivate = false;
+
+
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	ProjectileMovement->bAutoActivate = false; // It's responsible not be activeted while there will not be relevant order
 }
@@ -26,8 +31,18 @@ AProjectile_C::AProjectile_C()
 void AProjectile_C::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile_C::OnHit);
 	
 }
+
+void AProjectile_C::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
+	CollisionMesh->DestroyComponent();
+}
+
 
 // Called every frame
 void AProjectile_C::Tick(float DeltaTime)
