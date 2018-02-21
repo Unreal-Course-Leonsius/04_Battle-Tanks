@@ -22,6 +22,8 @@ AProjectile_C::AProjectile_C()
 	ImpactBlast->AttachTo(RootComponent);
 	ImpactBlast->bAutoActivate = false;
 
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Exlosion Force"));
+	ExplosionForce->AttachTo(RootComponent);
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	ProjectileMovement->bAutoActivate = false; // It's responsible not be activeted while there will not be relevant order
@@ -36,11 +38,31 @@ void AProjectile_C::BeginPlay()
 	
 }
 
+
 void AProjectile_C::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+
+	SetRootComponent(ImpactBlast);
 	CollisionMesh->DestroyComponent();
+
+	ExplosionForce->FireImpulse();
+
+	FTimerHandle Timer;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile_C::OnTimerExpire, DestroyDelay, false);
+
+	/* // I can use this code instead of above
+	FTimerDelegate Delegate;
+	Delegate.BindLambda([this] { Destroy(); });
+	//Uses different SetTimer overload
+	GetWorld()->GetTimerManager().SetTimer(Timer, Delegate, DestroyDelay, false);
+	*/
+}
+
+void AProjectile_C::OnTimerExpire()
+{
+	Destroy();
 }
 
 
